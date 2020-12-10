@@ -24,7 +24,7 @@ namespace Gognote
             counter++;
         }
 
-        private void openToolStripMenuItem_Click(object sender, System.EventArgs e)
+        private async void openToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
             openFileDialog1.Title = "Выберите тектовый файл";
             openFileDialog1.Filter = "Текстовые файлы|*.txt";
@@ -40,7 +40,7 @@ namespace Gognote
                         {
                             TabPage fileTab = new TabPage(openFileDialog1.FileName);
                             RichTextBox textBox = new RichTextBox();
-                            textBox.Text = sr.ReadToEnd();
+                            textBox.Text = await sr.ReadToEndAsync();
                             sr.Close();
                             textBox.Dock = DockStyle.Fill;
                             fileTab.Controls.Add(textBox);
@@ -56,7 +56,7 @@ namespace Gognote
             }
         }
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             saveFileDialog1.Title = "Выберите место сохранения";
             saveFileDialog1.Filter = "Текстовые файлы|*.txt";
@@ -69,7 +69,7 @@ namespace Gognote
                     {
                         using (StreamWriter sw = new StreamWriter(saveFileDialog1.FileName))
                         {
-                            sw.Write(tabControl.SelectedTab.Controls[0].Text);
+                            await sw.WriteAsync(tabControl.SelectedTab.Controls[0].Text);
                             sw.Close();
                         }
                     }
